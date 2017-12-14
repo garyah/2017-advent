@@ -29,5 +29,8 @@
     <ClCompile Include="..\common\md5.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CaptchaDigitSummerTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
