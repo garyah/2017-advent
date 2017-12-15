@@ -3,37 +3,27 @@ namespace Advent2017
     class CaptchaDigitSummer
     {
     public:
-        CaptchaDigitSummer() :
-            m_sumRepeated(0)
+        static unsigned sumRepeating(const char *input)
         {
+            return sumRepeatingByOffset(input, 1);
         }
 
-        void sumRepeating(const char *input)
+        static unsigned sumRepeatingOtherHalf(const char *input)
         {
-            sumRepeatingByOffset(input, 1);
-        }
-
-        void sumRepeatingOtherHalf(const char *input)
-        {
-            sumRepeatingByOffset(input, strlen(input) / 2);
-        }
-
-        unsigned getSumRepeated()
-        {
-            return m_sumRepeated;
+            return sumRepeatingByOffset(input, strlen(input) / 2);
         }
 
     private:
-        void sumRepeatingByOffset(const char *input, size_t offset)
+        static unsigned sumRepeatingByOffset(const char *input, size_t offset)
         {
+            auto result = 0u;
             auto length = strlen(input);
             for (size_t idx = 0; idx < length; ++idx)
             {
                 if (input[idx] == input[(idx + offset) % length])
-                    m_sumRepeated += input[idx] - '0';
+                    result += input[idx] - '0';
             }
+            return result;
         }
-
-        unsigned m_sumRepeated;
     };
 }

@@ -14,83 +14,48 @@ namespace advent2017tests
 
         TEST_METHOD(TestMethod01a1)
         {
-            CaptchaDigitSummer summer;
-            char input[] = "1122";
-            summer.sumRepeating(input);
-            auto sumRepeated = summer.getSumRepeated();
-            Assert::AreEqual(3u, sumRepeated);
+            Assert::AreEqual(3u, CaptchaDigitSummer::sumRepeating("1122"));
         }
 
         TEST_METHOD(TestMethod01a2)
         {
             CaptchaDigitSummer summer;
-            char input[] = "1111";
-            summer.sumRepeating(input);
-            auto sumRepeated = summer.getSumRepeated();
-            Assert::AreEqual(4u, sumRepeated);
+            Assert::AreEqual(4u, CaptchaDigitSummer::sumRepeating("1111"));
         }
 
         TEST_METHOD(TestMethod01a3)
         {
-            CaptchaDigitSummer summer;
-            char input[] = "1234";
-            summer.sumRepeating(input);
-            auto sumRepeated = summer.getSumRepeated();
-            Assert::AreEqual(0u, sumRepeated);
+            Assert::AreEqual(0u, CaptchaDigitSummer::sumRepeating("1234"));
         }
 
         TEST_METHOD(TestMethod01a4)
         {
-            CaptchaDigitSummer summer;
-            char input[] = "91212129";
-            summer.sumRepeating(input);
-            auto sumRepeated = summer.getSumRepeated();
-            Assert::AreEqual(9u, sumRepeated);
+            Assert::AreEqual(9u, CaptchaDigitSummer::sumRepeating("91212129"));
         }
 
         TEST_METHOD(TestMethod01b1)
         {
-            CaptchaDigitSummer summer;
-            char input[] = "1212";
-            summer.sumRepeatingOtherHalf(input);
-            auto sumRepeated = summer.getSumRepeated();
-            Assert::AreEqual(6u, sumRepeated);
+            Assert::AreEqual(6u, CaptchaDigitSummer::sumRepeatingOtherHalf("1212"));
         }
 
         TEST_METHOD(TestMethod01b2)
         {
-            CaptchaDigitSummer summer;
-            char input[] = "1221";
-            summer.sumRepeatingOtherHalf(input);
-            auto sumRepeated = summer.getSumRepeated();
-            Assert::AreEqual(0u, sumRepeated);
+            Assert::AreEqual(0u, CaptchaDigitSummer::sumRepeatingOtherHalf("1221"));
         }
 
         TEST_METHOD(TestMethod01b3)
         {
-            CaptchaDigitSummer summer;
-            char input[] = "123425";
-            summer.sumRepeatingOtherHalf(input);
-            auto sumRepeated = summer.getSumRepeated();
-            Assert::AreEqual(4u, sumRepeated);
+            Assert::AreEqual(4u, CaptchaDigitSummer::sumRepeatingOtherHalf("123425"));
         }
 
         TEST_METHOD(TestMethod01b4)
         {
-            CaptchaDigitSummer summer;
-            char input[] = "123123";
-            summer.sumRepeatingOtherHalf(input);
-            auto sumRepeated = summer.getSumRepeated();
-            Assert::AreEqual(12u, sumRepeated);
+            Assert::AreEqual(12u, CaptchaDigitSummer::sumRepeatingOtherHalf("123123"));
         }
 
         TEST_METHOD(TestMethod01b5)
         {
-            CaptchaDigitSummer summer;
-            char input[] = "12131415";
-            summer.sumRepeatingOtherHalf(input);
-            auto sumRepeated = summer.getSumRepeated();
-            Assert::AreEqual(4u, sumRepeated);
+            Assert::AreEqual(4u, CaptchaDigitSummer::sumRepeatingOtherHalf("12131415"));
         }
     };
 }

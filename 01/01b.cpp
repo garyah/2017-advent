@@ -11,9 +11,7 @@ int main()
     char *line = NULL;
     while ((line = InputReader::ReadLine()) != NULL)
     {
-        CaptchaDigitSummer summer;
-        summer.sumRepeatingOtherHalf(line);
-        (void)printf("%u\n", summer.getSumRepeated());
+        (void)printf("%u\n", CaptchaDigitSummer::sumRepeatingOtherHalf(line));
     }
     return 0;
 }
