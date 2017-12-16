@@ -58,3 +58,4 @@ Debug
 Release
 ipch
 *.opendb
+*.suo
