@@ -12,9 +12,9 @@ namespace advent2017tests
     {
     public:
 
-        TEST_METHOD(CanConstructWithValue)
+        TEST_METHOD(CanConstruct)
         {
-            NumberGenerator generator(0);
+            NumberGenerator generator(0, 0);
             // Assert::IsTrue(generator != nullptr);
         }
     };
