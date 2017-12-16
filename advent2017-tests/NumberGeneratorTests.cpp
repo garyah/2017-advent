@@ -20,5 +20,15 @@ namespace advent2017tests
             Assert::AreEqual(1744312007ull, generator.getNextNumber());
             Assert::AreEqual(1352636452ull, generator.getNextNumber());
         }
+
+        TEST_METHOD(Initial8921GeneratesCorrectFirst5)
+        {
+            NumberGenerator generator(8921ul, 48271u);
+            Assert::AreEqual(430625591ull, generator.getNextNumber());
+            Assert::AreEqual(1233683848ull, generator.getNextNumber());
+            Assert::AreEqual(1431495498ull, generator.getNextNumber());
+            Assert::AreEqual(137874439ull, generator.getNextNumber());
+            Assert::AreEqual(285222916ull, generator.getNextNumber());
+        }
     };
 }
