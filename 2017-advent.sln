@@ -103,6 +103,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "advent2017", "advent2017", "{3C93F4C5-015F-4DB1-A041-C9E31B934C71}"
 	ProjectSection(SolutionItems) = preProject
 		advent2017\CaptchaDigitSummer.hpp = advent2017\CaptchaDigitSummer.hpp
+		advent2017\GeneratorDriver.hpp = advent2017\GeneratorDriver.hpp
 		advent2017\NumberGenerator.hpp = advent2017\NumberGenerator.hpp
 	EndProjectSection
 EndProject
