@@ -11,10 +11,9 @@ namespace advent2017tests
     TEST_CLASS(GeneratorDriverTests)
     {
     public:
-        TEST_METHOD(SomeTest)
+        TEST_METHOD(CanCall)
         {
-            GeneratorDriver driver();
-            //Assert::AreEqual(expected, driver.someMethod());
+            Assert::AreEqual(0u, GeneratorDriver::DriveAndReturnNumberOfMatches(0u, 0u, 0u));
         }
     };
 }
