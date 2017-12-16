@@ -32,5 +32,8 @@
     <ClCompile Include="CaptchaDigitSummerTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NumberGeneratorTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
