@@ -57,3 +57,4 @@ others
 Debug
 Release
 ipch
+*.opendb
