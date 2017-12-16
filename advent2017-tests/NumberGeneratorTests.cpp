@@ -12,9 +12,10 @@ namespace advent2017tests
     {
     public:
 
-        TEST_METHOD(SomeTest)
+        TEST_METHOD(CanConstructWithValue)
         {
-            //Assert::AreEqual(3u, CaptchaDigitSummer::sumRepeating("1122"));
+            NumberGenerator generator(0);
+            // Assert::IsTrue(generator != nullptr);
         }
     };
 }
