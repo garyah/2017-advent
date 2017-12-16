@@ -11,14 +11,19 @@ namespace Advent2017
         uint64_t getNextNumber()
         {
             auto product = m_number * m_factor;
-            auto quotient = product / 2147483647;
-            auto rounded = quotient * 2147483647;
-            auto remainder = product - rounded;
-            m_number = remainder;
+            m_number = calculateMaxSigned32BitRemainder(product);
             return m_number;
         }
 
     private:
+
+        uint64_t calculateMaxSigned32BitRemainder(uint64_t value)
+        {
+            auto quotient = value / 2147483647;
+            auto rounded = quotient * 2147483647;
+            return value - rounded;
+        }
+
         uint64_t m_number;
         unsigned m_factor;
     };
