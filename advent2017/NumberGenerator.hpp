@@ -19,9 +19,7 @@ namespace Advent2017
 
         uint64_t calculateMaxSigned32BitRemainder(uint64_t value)
         {
-            auto quotient = value / 2147483647;
-            auto rounded = quotient * 2147483647;
-            return value - rounded;
+            return value % 2147483647;
         }
 
         uint64_t m_number;
