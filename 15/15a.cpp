@@ -1,19 +1,15 @@
+#include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
 
-#include "../common/InputReader.hpp"
-//#include "../advent2016/ChecksumGenerator.hpp"
+#include "../advent2017/GeneratorDriver.hpp"
 
-using namespace Common;
-//using namespace Advent2017;
+using namespace Advent2017;
 
 int main()
 {
-    char *line = NULL;
-    while ((line = InputReader::ReadLine()) != NULL)
-    {
-        //ChecksumGenerator generator;
-        //generator.expandAndGenerate(line, 272);
-        //(void)printf("%s\n", generator.getChecksum());
-    }
+    auto generatorAInitial = 0u;
+    auto generatorBInitial = 0u;
+    (void)printf("%u\n", GeneratorDriver::DriveAndReturnNumberOfMatches(generatorAInitial, generatorBInitial, 40u*1000u*1000u));
     return 0;
 }
