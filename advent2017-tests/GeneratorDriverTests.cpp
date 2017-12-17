@@ -20,5 +20,10 @@ namespace advent2017tests
         {
             Assert::AreEqual(1u, GeneratorDriver::DriveAndReturnNumberOfMatches(65u, 8921u, 5u));
         }
+
+        TEST_METHOD(Initial65And8921For40MRunsMatches588Times)
+        {
+            Assert::AreEqual(588u, GeneratorDriver::DriveAndReturnNumberOfMatches(65u, 8921u, 40u*1000u*1000u));
+        }
     };
 }
