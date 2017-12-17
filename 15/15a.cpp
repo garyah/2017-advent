@@ -8,8 +8,8 @@ using namespace Advent2017;
 
 int main()
 {
-    auto generatorAInitial = 0u;
-    auto generatorBInitial = 0u;
+    auto generatorAInitial = 618u;
+    auto generatorBInitial = 814u;
     (void)printf("%u\n", GeneratorDriver::DriveAndReturnNumberOfMatches(generatorAInitial, generatorBInitial, 40u*1000u*1000u));
     return 0;
 }
