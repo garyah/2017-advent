@@ -11,9 +11,14 @@ namespace advent2017tests
     TEST_CLASS(GeneratorDriverTests)
     {
     public:
-        TEST_METHOD(CanCall)
+        TEST_METHOD(InitialBothZeroReturnsNumberOfRuns)
         {
-            Assert::AreEqual(0u, GeneratorDriver::DriveAndReturnNumberOfMatches(0u, 0u, 0u));
+            Assert::AreEqual(40u*1000u*1000u, GeneratorDriver::DriveAndReturnNumberOfMatches(0u, 0u, 40u*1000u*1000u));
+        }
+
+        TEST_METHOD(Initial65And8921For5RunsMatchesOnce)
+        {
+            Assert::AreEqual(1u, GeneratorDriver::DriveAndReturnNumberOfMatches(65u, 8921u, 5u));
         }
     };
 }
