@@ -1,6 +1,6 @@
 namespace Advent2017
 {
-    class SomeClass
+    class AssemblyParser
     {
     public:
     private:
