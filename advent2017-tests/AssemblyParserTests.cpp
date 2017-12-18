@@ -11,7 +11,7 @@ namespace advent2017tests
     TEST_CLASS(AssemblyParserTests)
     {
     public:
-        TEST_METHOD(SampleProgramReturnsCorrectLastRecoveryValue)
+        TEST_METHOD(FirstSampleProgramReturnsCorrectLastRecoveryValue)
         {
             AssemblyParser parser;
             parser.parseInstruction("set a 1");
@@ -26,6 +26,33 @@ namespace advent2017tests
             parser.parseInstruction("jgz a -2");
             parser.executeProgram();
             Assert::AreEqual(4, (int)parser.getFirstRecoveryValue());
+        }
+
+        TEST_METHOD(SecondSampleProgramTerminates)
+        {
+            AssemblyParser parser;
+            parser.parseInstruction("snd 1");
+            parser.parseInstruction("snd 2");
+            parser.parseInstruction("snd p");
+            parser.parseInstruction("rcv a");
+            parser.parseInstruction("rcv b");
+            parser.parseInstruction("rcv c");
+            parser.parseInstruction("rcv d");
+            parser.executeProgramV2();
+        }
+
+        TEST_METHOD(SecondSampleProgramReturnsCorrectNumberOfSends)
+        {
+            AssemblyParser parser;
+            parser.parseInstruction("snd 1");
+            parser.parseInstruction("snd 2");
+            parser.parseInstruction("snd p");
+            parser.parseInstruction("rcv a");
+            parser.parseInstruction("rcv b");
+            parser.parseInstruction("rcv c");
+            parser.parseInstruction("rcv d");
+            parser.executeProgramV2();
+            Assert::AreEqual(3u, parser.getnumberOfSends());
         }
     };
 }

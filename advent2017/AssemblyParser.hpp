@@ -30,7 +30,8 @@ namespace Advent2017
         AssemblyParser() :
             m_program(),
             m_soundPlayed(false),
-            m_valueRecovered(false)
+            m_valueRecovered(false),
+            m_numberOfSends(0)
         {
             for (size_t i = 0; i < _countof(m_registers); ++i)
                 m_registers[i] = 0;
@@ -114,9 +115,18 @@ namespace Advent2017
             }
         }
 
+        void executeProgramV2()
+        {
+        }
+
         int64_t getFirstRecoveryValue()
         {
             return m_firstRecoveryValue;
+        }
+
+        unsigned getnumberOfSends()
+        {
+            return m_numberOfSends;
         }
 
     private:
@@ -147,5 +157,6 @@ namespace Advent2017
         int64_t m_mostRecentSndValue;
         bool m_valueRecovered;
         int64_t m_firstRecoveryValue;
+        unsigned m_numberOfSends;
     };
 }
