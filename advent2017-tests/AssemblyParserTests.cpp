@@ -25,7 +25,7 @@ namespace advent2017tests
             parser.parseInstruction("set a 1");
             parser.parseInstruction("jgz a -2");
             parser.executeProgram();
-            Assert::AreEqual(4u, parser.getLastRecoveryValue());
+            Assert::AreEqual(4, parser.getFirstRecoveryValue());
         }
     };
 }
