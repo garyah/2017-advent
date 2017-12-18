@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <string>
 #include <vector>
 
@@ -18,9 +19,9 @@ namespace Advent2017
     {
         AssemblyParserOperation operation;
         bool isFirstOperandRegister;
-        int firstOperand;
+        int64_t firstOperand;
         bool isSecondOperandRegister;
-        int secondOperand;
+        int64_t secondOperand;
     };
 
     class AssemblyParser
@@ -81,23 +82,30 @@ namespace Advent2017
                 switch (instruction.operation)
                 {
                 case Snd: m_mostRecentSndValue = firstOperandValue(instruction); m_soundPlayed = true;
+                    (void)printf("snd %lld\n", firstOperandValue(instruction));
                     break;
                 case Set: setRegister(instruction, secondOperandValue(instruction));
+                    (void)printf("set %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 case Add: setRegister(instruction, firstOperandValue(instruction) + secondOperandValue(instruction));
+                    (void)printf("add %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 case Mul: setRegister(instruction, firstOperandValue(instruction) * secondOperandValue(instruction));
+                    (void)printf("mul %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 case Mod: setRegister(instruction, firstOperandValue(instruction) % secondOperandValue(instruction));
+                    (void)printf("mod %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 case Rcv:
                     if (m_soundPlayed && firstOperandValue(instruction) != 0)
                         { m_firstRecoveryValue = m_mostRecentSndValue; m_valueRecovered = true; }
+                    (void)printf("rcv %lld\n", firstOperandValue(instruction));
                     break;
                 case Jgz:
                     if (firstOperandValue(instruction) > 0
                         && (secondOperandValue(instruction) < 0 || secondOperandValue(instruction) > 1))
                         --programCounter += secondOperandValue(instruction);
+                    (void)printf("jgz %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 default:
                     break;
@@ -106,38 +114,38 @@ namespace Advent2017
             }
         }
 
-        int getFirstRecoveryValue()
+        int64_t getFirstRecoveryValue()
         {
             return m_firstRecoveryValue;
         }
 
     private:
-        void setRegister(const AssemblyParserInstruction& instruction, int value)
+        void setRegister(const AssemblyParserInstruction& instruction, int64_t value)
         {
             if (instruction.isFirstOperandRegister)
                 m_registers[instruction.firstOperand] = value;
         }
 
-        int firstOperandValue(const AssemblyParserInstruction& instruction)
+        int64_t firstOperandValue(const AssemblyParserInstruction& instruction)
         {
             return operandValue(instruction.isFirstOperandRegister, instruction.firstOperand);
         }
 
-        int secondOperandValue(const AssemblyParserInstruction& instruction)
+        int64_t secondOperandValue(const AssemblyParserInstruction& instruction)
         {
             return operandValue(instruction.isSecondOperandRegister, instruction.secondOperand);
         }
 
-        int operandValue(bool isOperandRegister, int operand)
+        int64_t operandValue(bool isOperandRegister, int64_t operand)
         {
             return isOperandRegister ? m_registers[operand] : operand;
         }
 
         std::vector<AssemblyParserInstruction> m_program;
-        int m_registers[26];
+        int64_t m_registers[26];
         bool m_soundPlayed;
-        int m_mostRecentSndValue;
+        int64_t m_mostRecentSndValue;
         bool m_valueRecovered;
-        int m_firstRecoveryValue;
+        int64_t m_firstRecoveryValue;
     };
 }
