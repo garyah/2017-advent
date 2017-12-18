@@ -1,20 +1,17 @@
 #include <stdio.h>
 
 #include "../common/InputReader.hpp"
-#include "../advent2016/ViableNodePairCounter.hpp"
+#include "../advent2017/Spinlock.hpp"
 
 using namespace Common;
-using namespace Advent2016;
+using namespace Advent2017;
 
 int main()
 {
-    ViableNodePairCounter counter;
     char *line = NULL;
     while ((line = InputReader::ReadLine()) != NULL)
     {
-        counter.addNode(line);
+        (void)printf("%u\n", Spinlock::SpinAndReturnValueAfterLastInserted(atoi(line)));
     }
-    counter.countViable();
-    (void)printf("%u\n", counter.getNumViable());
     return 0;
 }
