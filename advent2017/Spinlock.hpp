@@ -17,12 +17,15 @@ namespace Advent2017
 
         static unsigned SpinAndReturnValueAfterFirst(size_t stepSize)
         {
-            std::list<unsigned> buffer;
-            buffer.push_back(0);
             size_t currentPosition = 0;
-            for (auto valueToInsert = 1u; valueToInsert <= 50u*1000u*1000u; ++valueToInsert)
-                setCurrentPositionAndInsertValue(buffer, stepSize, valueToInsert, currentPosition);
-            return valueAtPosition(buffer, 1);
+            auto valueAfterFirst = 0u;
+            for (auto valueToInsert = 1u; valueToInsert <= 50u * 1000u * 1000u; ++valueToInsert)
+            {
+                currentPosition = (currentPosition + stepSize) % valueToInsert;
+                if (currentPosition == 0) valueAfterFirst = valueToInsert;
+                ++currentPosition;
+            }
+            return valueAfterFirst;
         }
 
     private:

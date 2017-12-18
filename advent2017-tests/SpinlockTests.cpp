@@ -18,7 +18,7 @@ namespace advent2017tests
 
         TEST_METHOD(StepSize3ReturnsCorrectValueAfterFirst)
         {
-            Assert::AreEqual(9u, Spinlock::SpinAndReturnValueAfterFirst(3));
+            Assert::AreEqual(1222153u, Spinlock::SpinAndReturnValueAfterFirst(3));
         }
     };
 }
