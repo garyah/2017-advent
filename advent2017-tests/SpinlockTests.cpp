@@ -11,9 +11,8 @@ namespace advent2017tests
     TEST_CLASS(SpinlockTests)
     {
     public:
-        TEST_METHOD(CanCall)
+        TEST_METHOD(StepSize3ReturnsCorrectResult)
         {
-            //SomeClass someObject();
             Assert::AreEqual(638u, Spinlock::SpinAndReturnValueAfterLastInserted(3));
         }
     };
