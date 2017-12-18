@@ -75,7 +75,7 @@ namespace Advent2017
 
         void executeProgram()
         {
-            for (size_t programCounter = 0; programCounter < m_program.size(); ++programCounter)
+            for (size_t programCounter = 0; programCounter >= 0 && programCounter < m_program.size(); ++programCounter)
             {
                 auto instruction = m_program[programCounter];
                 switch (instruction.operation)
@@ -95,10 +95,14 @@ namespace Advent2017
                         { m_firstRecoveryValue = m_mostRecentSndValue; m_valueRecovered = true; }
                     break;
                 case Jgz:
+                    if (firstOperandValue(instruction) > 0
+                        && (secondOperandValue(instruction) < 0 || secondOperandValue(instruction) > 1))
+                        --programCounter += secondOperandValue(instruction);
                     break;
                 default:
                     break;
                 }
+                if (m_valueRecovered) break;
             }
         }
 
