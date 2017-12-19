@@ -34,7 +34,8 @@ namespace Advent2017
             m_numberOfSends(0)
         {
             for (size_t i = 0; i < _countof(m_registers); ++i)
-                m_registers[i] = 0;
+                for (size_t j = 0; j < _countof(m_registers[0]); ++j)
+                    m_registers[i][j] = 0;
         }
 
         void parseInstruction(const char *line)
@@ -130,29 +131,29 @@ namespace Advent2017
         }
 
     private:
-        void setRegister(const AssemblyParserInstruction& instruction, int64_t value)
+        void setRegister(const AssemblyParserInstruction& instruction, int64_t value, size_t processId = 0)
         {
             if (instruction.isFirstOperandRegister)
-                m_registers[instruction.firstOperand] = value;
+                m_registers[instruction.firstOperand][processId] = value;
         }
 
-        int64_t firstOperandValue(const AssemblyParserInstruction& instruction)
+        int64_t firstOperandValue(const AssemblyParserInstruction& instruction, size_t processId = 0)
         {
-            return operandValue(instruction.isFirstOperandRegister, instruction.firstOperand);
+            return operandValue(instruction.isFirstOperandRegister, instruction.firstOperand, processId);
         }
 
-        int64_t secondOperandValue(const AssemblyParserInstruction& instruction)
+        int64_t secondOperandValue(const AssemblyParserInstruction& instruction, size_t processId = 0)
         {
-            return operandValue(instruction.isSecondOperandRegister, instruction.secondOperand);
+            return operandValue(instruction.isSecondOperandRegister, instruction.secondOperand, processId);
         }
 
-        int64_t operandValue(bool isOperandRegister, int64_t operand)
+        int64_t operandValue(bool isOperandRegister, int64_t operand, size_t processId)
         {
-            return isOperandRegister ? m_registers[operand] : operand;
+            return isOperandRegister ? m_registers[operand][processId] : operand;
         }
 
         std::vector<AssemblyParserInstruction> m_program;
-        int64_t m_registers[26];
+        int64_t m_registers[26][2];
         bool m_soundPlayed;
         int64_t m_mostRecentSndValue;
         bool m_valueRecovered;
