@@ -1,3 +1,4 @@
+#include <queue>
 #include <stdint.h>
 #include <string>
 #include <vector>
@@ -28,14 +29,10 @@ namespace Advent2017
     {
     public:
         AssemblyParser() :
-            m_program(),
             m_soundPlayed(false),
             m_valueRecovered(false),
             m_numberOfSends(0)
         {
-            for (size_t i = 0; i < _countof(m_registers); ++i)
-                for (size_t j = 0; j < _countof(m_registers[0]); ++j)
-                    m_registers[i][j] = 0;
         }
 
         void parseInstruction(const char *line)
@@ -47,6 +44,7 @@ namespace Advent2017
             if (instructionToken != nullptr)
             {
                 AssemblyParserInstruction instruction;
+                (void)memset(&instruction, 0, sizeof(instruction));
                 do
                 {
                     if (strcmp(instructionToken, "snd") == 0) { instruction.operation = Snd; break; }
@@ -78,6 +76,7 @@ namespace Advent2017
 
         void executeProgram()
         {
+            clearState();
             for (size_t programCounter = 0; programCounter >= 0 && programCounter < m_program.size(); ++programCounter)
             {
                 programCounter = executeInstructionReturningProgramCounter(programCounter, m_program[programCounter]);
@@ -87,51 +86,94 @@ namespace Advent2017
 
         void executeProgramV2()
         {
+            clearState();
+            m_registers['P' - 'A'][0] = 0;
+            m_registers['P' - 'A'][1] = 1;
+            for (size_t programCounter0 = 0, programCounter1 = 0;
+                programCounter0 >= 0 && programCounter0 < m_program.size()
+                || programCounter1 >= 0 && programCounter1 < m_program.size();
+                ++programCounter0, ++programCounter1)
+            {
+                auto savedCounter0 = programCounter0;
+                auto savedCounter1 = programCounter1;
+                if (programCounter0 >= 0 && programCounter0 < m_program.size())
+                    programCounter0 = executeInstructionReturningProgramCounter(programCounter0, m_program[programCounter0], true, 0);
+                if (programCounter1 >= 0 && programCounter1 < m_program.size())
+                    programCounter1 = executeInstructionReturningProgramCounter(programCounter1, m_program[programCounter1], true, 1);
+                if (programCounter0 - savedCounter0 == -1 && programCounter1 - savedCounter1 == -1)   // DEADLOCK!
+                    break;
+            }
         }
 
-        int64_t getFirstRecoveryValue()
-        {
-            return m_firstRecoveryValue;
-        }
+        int64_t getFirstRecoveryValue() { return m_firstRecoveryValue; }
 
-        unsigned getnumberOfSends()
-        {
-            return m_numberOfSends;
-        }
+        unsigned getnumberOfSends() { return m_numberOfSends; }
 
     private:
-        size_t executeInstructionReturningProgramCounter(size_t programCounter, const AssemblyParserInstruction& instruction, size_t processId = 0)
+        void clearState()
+        {
+            for (size_t i = 0; i < _countof(m_registers); ++i)
+                for (size_t j = 0; j < _countof(m_registers[0]); ++j)
+                    m_registers[i][j] = 0;
+
+            m_soundPlayed = m_valueRecovered = false;
+            m_mostRecentSndValue = m_firstRecoveryValue = 0;
+
+            while (!m_interProcessQueue[0].empty()) m_interProcessQueue[0].pop();
+            while (!m_interProcessQueue[1].empty()) m_interProcessQueue[1].pop();
+            m_numberOfSends = 0;
+        }
+
+        size_t executeInstructionReturningProgramCounter(size_t programCounter, const AssemblyParserInstruction& instruction, bool multiProcess = false, size_t processId = 0)
         {
             auto firstOperand = firstOperandValue(instruction, processId);
             auto secondOperand = secondOperandValue(instruction, processId);
             switch (instruction.operation)
             {
-            case Snd: m_mostRecentSndValue = firstOperand; m_soundPlayed = true;
-                logOneOperandExecution("snd", firstOperand);
+            case Set: setRegister(instruction, secondOperand, processId);
+                logTwoOperandExecution("set", firstOperand, secondOperand, processId);
                 break;
-            case Set: setRegister(instruction, secondOperand);
-                logTwoOperandExecution("set", firstOperand, secondOperand);
+            case Add: setRegister(instruction, firstOperand + secondOperand, processId);
+                logTwoOperandExecution("add", firstOperand, secondOperand, processId);
                 break;
-            case Add: setRegister(instruction, firstOperand + secondOperand);
-                logTwoOperandExecution("add", firstOperand, secondOperand);
+            case Mul: setRegister(instruction, firstOperand * secondOperand, processId);
+                logTwoOperandExecution("mul", firstOperand, secondOperand, processId);
                 break;
-            case Mul: setRegister(instruction, firstOperand * secondOperand);
-                logTwoOperandExecution("mul", firstOperand, secondOperand);
+            case Mod: setRegister(instruction, firstOperand % secondOperand, processId);
+                logTwoOperandExecution("mod", firstOperand, secondOperand, processId);
                 break;
-            case Mod: setRegister(instruction, firstOperand % secondOperand);
-                logTwoOperandExecution("mod", firstOperand, secondOperand);
+            case Snd:
+                if (multiProcess)
+                {
+                    m_interProcessQueue[processId ? 0 : 1].push(firstOperand);
+                    if (processId == 1) ++m_numberOfSends;
+                }
+                if (!multiProcess)
+                {
+                    m_mostRecentSndValue = firstOperand; m_soundPlayed = true;
+                }
+                logOneOperandExecution("snd", firstOperand, processId);
                 break;
             case Rcv:
-                if (m_soundPlayed && firstOperand != 0)
+                if (multiProcess)
+                {
+                    if (m_interProcessQueue[processId].empty()) --programCounter;
+                    if (!m_interProcessQueue[processId].empty())
+                    {
+                        setRegister(instruction, m_interProcessQueue[processId].front(), processId);
+                        m_interProcessQueue[processId].pop();
+                    }
+                }
+                if (!multiProcess && m_soundPlayed && firstOperand != 0)
                 {
                     m_firstRecoveryValue = m_mostRecentSndValue; m_valueRecovered = true;
                 }
-                logOneOperandExecution("rcv", firstOperand);
+                logOneOperandExecution("rcv", firstOperand, processId);
                 break;
             case Jgz:
                 if (firstOperand > 0 && (secondOperand < 0 || secondOperand > 1))
                     --programCounter += secondOperand;
-                logTwoOperandExecution("jgz", firstOperand, secondOperand);
+                logTwoOperandExecution("jgz", firstOperand, secondOperand, processId);
                 break;
             default:
                 break;
@@ -139,28 +181,28 @@ namespace Advent2017
             return programCounter;
         }
 
-        void logOneOperandExecution(const char *instructionName, int64_t operandValue)
+        void logOneOperandExecution(const char *instructionName, int64_t operandValue, size_t processId)
         {
-            //(void)printf("%s %lld\n", instructionName, operandValue);
+            (void)printf("%u: %s %lld\n", processId, instructionName, operandValue);
         }
 
-        void logTwoOperandExecution(const char *instructionName, int64_t firstOperandValue, int64_t secondOperandValue)
+        void logTwoOperandExecution(const char *instructionName, int64_t firstOperandValue, int64_t secondOperandValue, size_t processId)
         {
-            //(void)printf("%s %lld %lld\n", instructionName, firstOperandValue, secondOperandValue);
+            (void)printf("%u: %s %lld %lld\n", processId, instructionName, firstOperandValue, secondOperandValue);
         }
 
-        void setRegister(const AssemblyParserInstruction& instruction, int64_t value, size_t processId = 0)
+        void setRegister(const AssemblyParserInstruction& instruction, int64_t value, size_t processId)
         {
             if (instruction.isFirstOperandRegister)
                 m_registers[instruction.firstOperand][processId] = value;
         }
 
-        int64_t firstOperandValue(const AssemblyParserInstruction& instruction, size_t processId = 0)
+        int64_t firstOperandValue(const AssemblyParserInstruction& instruction, size_t processId)
         {
             return operandValue(instruction.isFirstOperandRegister, instruction.firstOperand, processId);
         }
 
-        int64_t secondOperandValue(const AssemblyParserInstruction& instruction, size_t processId = 0)
+        int64_t secondOperandValue(const AssemblyParserInstruction& instruction, size_t processId)
         {
             return operandValue(instruction.isSecondOperandRegister, instruction.secondOperand, processId);
         }
@@ -176,6 +218,8 @@ namespace Advent2017
         int64_t m_mostRecentSndValue;
         bool m_valueRecovered;
         int64_t m_firstRecoveryValue;
+
+        std::queue<int64_t> m_interProcessQueue[2];
         unsigned m_numberOfSends;
     };
 }
