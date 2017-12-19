@@ -80,38 +80,7 @@ namespace Advent2017
         {
             for (size_t programCounter = 0; programCounter >= 0 && programCounter < m_program.size(); ++programCounter)
             {
-                auto instruction = m_program[programCounter];
-                switch (instruction.operation)
-                {
-                case Snd: m_mostRecentSndValue = firstOperandValue(instruction); m_soundPlayed = true;
-                    //(void)printf("snd %lld\n", firstOperandValue(instruction));
-                    break;
-                case Set: setRegister(instruction, secondOperandValue(instruction));
-                    //(void)printf("set %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
-                    break;
-                case Add: setRegister(instruction, firstOperandValue(instruction) + secondOperandValue(instruction));
-                    //(void)printf("add %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
-                    break;
-                case Mul: setRegister(instruction, firstOperandValue(instruction) * secondOperandValue(instruction));
-                    //(void)printf("mul %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
-                    break;
-                case Mod: setRegister(instruction, firstOperandValue(instruction) % secondOperandValue(instruction));
-                    //(void)printf("mod %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
-                    break;
-                case Rcv:
-                    if (m_soundPlayed && firstOperandValue(instruction) != 0)
-                        { m_firstRecoveryValue = m_mostRecentSndValue; m_valueRecovered = true; }
-                    //(void)printf("rcv %lld\n", firstOperandValue(instruction));
-                    break;
-                case Jgz:
-                    if (firstOperandValue(instruction) > 0
-                        && (secondOperandValue(instruction) < 0 || secondOperandValue(instruction) > 1))
-                        --programCounter += secondOperandValue(instruction);
-                    //(void)printf("jgz %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
-                    break;
-                default:
-                    break;
-                }
+                programCounter = executeInstructionReturningProgramCounter(programCounter, m_program[programCounter]);
                 if (m_valueRecovered) break;
             }
         }
@@ -131,6 +100,55 @@ namespace Advent2017
         }
 
     private:
+        size_t executeInstructionReturningProgramCounter(size_t programCounter, const AssemblyParserInstruction& instruction, size_t processId = 0)
+        {
+            auto firstOperand = firstOperandValue(instruction, processId);
+            auto secondOperand = secondOperandValue(instruction, processId);
+            switch (instruction.operation)
+            {
+            case Snd: m_mostRecentSndValue = firstOperand; m_soundPlayed = true;
+                logOneOperandExecution("snd", firstOperand);
+                break;
+            case Set: setRegister(instruction, secondOperand);
+                logTwoOperandExecution("set", firstOperand, secondOperand);
+                break;
+            case Add: setRegister(instruction, firstOperand + secondOperand);
+                logTwoOperandExecution("add", firstOperand, secondOperand);
+                break;
+            case Mul: setRegister(instruction, firstOperand * secondOperand);
+                logTwoOperandExecution("mul", firstOperand, secondOperand);
+                break;
+            case Mod: setRegister(instruction, firstOperand % secondOperand);
+                logTwoOperandExecution("mod", firstOperand, secondOperand);
+                break;
+            case Rcv:
+                if (m_soundPlayed && firstOperand != 0)
+                {
+                    m_firstRecoveryValue = m_mostRecentSndValue; m_valueRecovered = true;
+                }
+                logOneOperandExecution("rcv", firstOperand);
+                break;
+            case Jgz:
+                if (firstOperand > 0 && (secondOperand < 0 || secondOperand > 1))
+                    --programCounter += secondOperand;
+                logTwoOperandExecution("jgz", firstOperand, secondOperand);
+                break;
+            default:
+                break;
+            }
+            return programCounter;
+        }
+
+        void logOneOperandExecution(const char *instructionName, int64_t operandValue)
+        {
+            //(void)printf("%s %lld\n", instructionName, operandValue);
+        }
+
+        void logTwoOperandExecution(const char *instructionName, int64_t firstOperandValue, int64_t secondOperandValue)
+        {
+            //(void)printf("%s %lld %lld\n", instructionName, firstOperandValue, secondOperandValue);
+        }
+
         void setRegister(const AssemblyParserInstruction& instruction, int64_t value, size_t processId = 0)
         {
             if (instruction.isFirstOperandRegister)
