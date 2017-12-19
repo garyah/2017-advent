@@ -183,12 +183,12 @@ namespace Advent2017
 
         void logOneOperandExecution(const char *instructionName, int64_t operandValue, size_t processId)
         {
-            (void)printf("%u: %s %lld\n", processId, instructionName, operandValue);
+            //(void)printf("%zu: %s %lld\n", processId, instructionName, operandValue);
         }
 
         void logTwoOperandExecution(const char *instructionName, int64_t firstOperandValue, int64_t secondOperandValue, size_t processId)
         {
-            (void)printf("%u: %s %lld %lld\n", processId, instructionName, firstOperandValue, secondOperandValue);
+            //(void)printf("%zu: %s %lld %lld\n", processId, instructionName, firstOperandValue, secondOperandValue);
         }
 
         void setRegister(const AssemblyParserInstruction& instruction, int64_t value, size_t processId)

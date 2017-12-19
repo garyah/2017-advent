@@ -14,7 +14,7 @@ int main()
     {
         parser.parseInstruction(line);
     }
-    parser.executeProgram();
-    (void)printf("%u\n", parser.getFirstRecoveryValue());
+    parser.executeProgramV2();
+    (void)printf("%u\n", parser.getnumberOfSends());
     return 0;
 }
