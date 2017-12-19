@@ -168,6 +168,7 @@
     <ClCompile Include="CaptchaDigitSummerTests.cpp" />
     <ClCompile Include="GeneratorDriverTests.cpp" />
     <ClCompile Include="NumberGeneratorTests.cpp" />
+    <ClCompile Include="PathFinderTests.cpp" />
     <ClCompile Include="SpinlockTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

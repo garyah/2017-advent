@@ -1,20 +1,20 @@
 #include <stdio.h>
 
 #include "../common/InputReader.hpp"
-#include "../advent2016/ViableNodePairCounter.hpp"
+#include "../advent2017/PathFinder.hpp"
 
 using namespace Common;
-using namespace Advent2016;
+using namespace Advent2017;
 
 int main()
 {
-    ViableNodePairCounter counter;
+    PathFinder pathFinder;
     char *line = NULL;
     while ((line = InputReader::ReadLine()) != NULL)
     {
-        counter.addNode(line);
+        //pathFinder.xxx(line);
     }
-    counter.countViable();
-    (void)printf("%u\n", counter.getNumViable());
+    //pathFinder.xxx();
+    //(void)printf("%u\n", pathFinder.xxx());
     return 0;
 }
