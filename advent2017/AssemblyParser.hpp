@@ -84,30 +84,30 @@ namespace Advent2017
                 switch (instruction.operation)
                 {
                 case Snd: m_mostRecentSndValue = firstOperandValue(instruction); m_soundPlayed = true;
-                    (void)printf("snd %lld\n", firstOperandValue(instruction));
+                    //(void)printf("snd %lld\n", firstOperandValue(instruction));
                     break;
                 case Set: setRegister(instruction, secondOperandValue(instruction));
-                    (void)printf("set %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
+                    //(void)printf("set %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 case Add: setRegister(instruction, firstOperandValue(instruction) + secondOperandValue(instruction));
-                    (void)printf("add %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
+                    //(void)printf("add %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 case Mul: setRegister(instruction, firstOperandValue(instruction) * secondOperandValue(instruction));
-                    (void)printf("mul %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
+                    //(void)printf("mul %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 case Mod: setRegister(instruction, firstOperandValue(instruction) % secondOperandValue(instruction));
-                    (void)printf("mod %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
+                    //(void)printf("mod %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 case Rcv:
                     if (m_soundPlayed && firstOperandValue(instruction) != 0)
                         { m_firstRecoveryValue = m_mostRecentSndValue; m_valueRecovered = true; }
-                    (void)printf("rcv %lld\n", firstOperandValue(instruction));
+                    //(void)printf("rcv %lld\n", firstOperandValue(instruction));
                     break;
                 case Jgz:
                     if (firstOperandValue(instruction) > 0
                         && (secondOperandValue(instruction) < 0 || secondOperandValue(instruction) > 1))
                         --programCounter += secondOperandValue(instruction);
-                    (void)printf("jgz %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
+                    //(void)printf("jgz %lld %lld\n", firstOperandValue(instruction), secondOperandValue(instruction));
                     break;
                 default:
                     break;
