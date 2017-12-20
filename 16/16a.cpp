@@ -11,9 +11,10 @@ int main()
     char *line = NULL;
     while ((line = InputReader::ReadLine()) != NULL)
     {
-        ProgramDancer generator;
-        //generator.expandAndGenerate(line, 272);
-        //(void)printf("%s\n", generator.getChecksum());
+        std::string finalPositions;
+        ProgramDancer::DanceWithNumberOfProgramsAndMoveListAndReturnFinalPositions(
+            16, line, finalPositions);
+        (void)printf("%s\n", finalPositions.data());
     }
     return 0;
 }

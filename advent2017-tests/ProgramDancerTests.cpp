@@ -13,7 +13,6 @@ namespace advent2017tests
     public:
         TEST_METHOD(MovesFromSampleReturnsCorrectFinal)
         {
-            //ProgramDancer someObject();
             std::string finalPositions;
             ProgramDancer::DanceWithNumberOfProgramsAndMoveListAndReturnFinalPositions(
                 5, "s1,x3/4,pe/b", finalPositions);
