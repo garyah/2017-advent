@@ -13,8 +13,8 @@ namespace Advent2017
             for (size_t idx = 0; idx < numberOfPrograms && idx < _countof(result) - 1; ++idx)
                 result[idx] = programName++;
 
-            char mutableMoveList[80] = { 0 };
-            (void)strncpy_s(mutableMoveList, moveList, _countof(mutableMoveList));
+            char mutableMoveList[100*1000] = { 0 };
+            (void)strcpy_s(mutableMoveList, _countof(mutableMoveList), moveList);
             char *context = nullptr;
             auto moveToken = strtok_s(mutableMoveList, " ,", &context);
             while (moveToken != nullptr)
