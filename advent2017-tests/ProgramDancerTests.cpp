@@ -11,13 +11,13 @@ namespace advent2017tests
     TEST_CLASS(ProgramDancerTests)
     {
     public:
-        TEST_METHOD(Spin1ReturnsCorrectFinal)
+        TEST_METHOD(MovesFromSampleReturnsCorrectFinal)
         {
             //ProgramDancer someObject();
             std::string finalPositions;
             ProgramDancer::DanceWithNumberOfProgramsAndMoveListAndReturnFinalPositions(
-                5, "s1", finalPositions);
-            Assert::AreEqual("eabcd", finalPositions.data());
+                5, "s1,x3/4", finalPositions);
+            Assert::AreEqual("eabdc", finalPositions.data());
         }
     };
 }

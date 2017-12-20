@@ -31,6 +31,15 @@ namespace Advent2017
                         newResult[dstIdx++] = result[srcIdx];
                     (void)strcpy_s(result, _countof(result) - 1, newResult);
                 }
+                if (moveToken[0] == 'x') // eXchange
+                {
+                    size_t firstPosition = 0, secondPosition = 0;
+                    (void)sscanf_s(moveToken + 1, "%zu/%zu", &firstPosition, &secondPosition);
+                    auto savedValue = result[firstPosition];
+                    result[firstPosition] = result[secondPosition];
+                    result[secondPosition] = savedValue;
+                }
+
                 moveToken = strtok_s(nullptr, " ,", &context);
             }
 
