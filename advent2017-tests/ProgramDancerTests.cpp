@@ -18,5 +18,13 @@ namespace advent2017tests
                 5, "s1,x3/4,pe/b", finalPositions);
             Assert::AreEqual("baedc", finalPositions.data());
         }
+
+        TEST_METHOD(MovesFromSampleReturnsCorrectFinalAfterBillionDances)
+        {
+            std::string finalPositions;
+            ProgramDancer::DanceWithNumberOfProgramsAndMoveListAndReturnFinalPositions(
+                5, "s1,x3/4,pe/b", finalPositions, 1000*1000*10);
+            Assert::AreEqual("baedc", finalPositions.data());
+        }
     };
 }
