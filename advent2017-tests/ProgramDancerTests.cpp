@@ -16,8 +16,8 @@ namespace advent2017tests
             //ProgramDancer someObject();
             std::string finalPositions;
             ProgramDancer::DanceWithNumberOfProgramsAndMoveListAndReturnFinalPositions(
-                5, "s1,x3/4", finalPositions);
-            Assert::AreEqual("eabdc", finalPositions.data());
+                5, "s1,x3/4,pe/b", finalPositions);
+            Assert::AreEqual("baedc", finalPositions.data());
         }
     };
 }

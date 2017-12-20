@@ -39,6 +39,14 @@ namespace Advent2017
                     result[firstPosition] = result[secondPosition];
                     result[secondPosition] = savedValue;
                 }
+                if (moveToken[0] == 'p') // Partner
+                {
+                    auto firstPosition = strrchr(result, moveToken[1]) - result;
+                    auto secondPosition = strrchr(result, moveToken[3]) - result;
+                    auto savedValue = result[firstPosition];
+                    result[firstPosition] = result[secondPosition];
+                    result[secondPosition] = savedValue;
+                }
 
                 moveToken = strtok_s(nullptr, " ,", &context);
             }
