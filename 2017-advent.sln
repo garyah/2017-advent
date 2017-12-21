@@ -109,6 +109,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "advent2017", "advent2017", 
 		advent2017\PathFinder.hpp = advent2017\PathFinder.hpp
 		advent2017\ProgramDancer.hpp = advent2017\ProgramDancer.hpp
 		advent2017\Spinlock.hpp = advent2017\Spinlock.hpp
+		advent2017\StreamProcessor.hpp = advent2017\StreamProcessor.hpp
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "advent2017-tests", "advent2017-tests\advent2017-tests.vcxproj", "{E6C90EEA-F7E6-4814-AD57-6AF548F0ED4C}"
