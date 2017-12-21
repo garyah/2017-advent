@@ -11,10 +11,20 @@ namespace advent2017tests
     TEST_CLASS(StreamProcessorTests)
     {
     public:
-        TEST_METHOD(SomeTest)
+        TEST_METHOD(CanEatEmptyGarbage)
         {
             //StreamProcessor someObject();
-            //Assert::AreEqual(expected, someObject.someMethod());
+            Assert::AreEqual("", StreamProcessor::EatGarbage("<>"));
+        }
+
+        TEST_METHOD(CanEatRandomGarbage)
+        {
+            Assert::AreEqual("", StreamProcessor::EatGarbage("<lkjghlig t>"));
+        }
+
+        TEST_METHOD(CanEatGarbageWithExtraStartingCharacters)
+        {
+            Assert::AreEqual("", StreamProcessor::EatGarbage("<<<<>"));
         }
     };
 }
