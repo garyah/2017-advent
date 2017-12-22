@@ -11,10 +11,13 @@ namespace advent2017tests
     TEST_CLASS(VirusCarrierTests)
     {
     public:
-        TEST_METHOD(SomeTest)
+        TEST_METHOD(CanReadSampleMap)
         {
-            //VirusCarrier someObject();
-            //Assert::AreEqual(expected, someObject.someMethod());
+            VirusCarrier carrier;
+            carrier.addMapRow("..#");
+            carrier.addMapRow("#..");
+            carrier.addMapRow("...");
+            Assert::AreEqual((size_t)9, carrier.getNumberOfGridNodes());
         }
     };
 }
