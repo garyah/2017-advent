@@ -26,5 +26,20 @@ namespace advent2017tests
         {
             Assert::AreEqual("", StreamProcessor::EatGarbage("<<<<>"));
         }
+
+        TEST_METHOD(CanEatGarbageWith111)
+        {
+            Assert::AreEqual("", StreamProcessor::EatGarbage("<<<<>"));
+        }
+
+        TEST_METHOD(CanEatGarbageWith112)
+        {
+            Assert::AreEqual("", StreamProcessor::EatGarbage("<<<<>"));
+        }
+
+        TEST_METHOD(CanEatGarbageWith113)
+        {
+            Assert::AreEqual("", StreamProcessor::EatGarbage("<<<<>"));
+        }
     };
 }
