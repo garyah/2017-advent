@@ -1,20 +1,20 @@
 #include <stdio.h>
 
 #include "../common/InputReader.hpp"
-#include "../advent2016/ViableNodePairCounter.hpp"
+#include "../advent2017/VirusCarrier.hpp"
 
 using namespace Common;
-using namespace Advent2016;
+using namespace Advent2017;
 
 int main()
 {
-    ViableNodePairCounter counter;
+    VirusCarrier carrier;
     char *line = NULL;
     while ((line = InputReader::ReadLine()) != NULL)
     {
-        counter.addNode(line);
+        // carrier.addMapRow(line);
     }
-    counter.countViable();
-    (void)printf("%u\n", counter.getNumViable());
+    // carrier.spreadVirus();
+    //(void)printf("%u\n", carrier.getNumberInfectedBySpread());
     return 0;
 }
