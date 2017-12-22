@@ -19,5 +19,15 @@ namespace advent2017tests
             carrier.addMapRow("...");
             Assert::AreEqual((size_t)9, carrier.getNumberOfGridNodes());
         }
+
+        TEST_METHOD(SampleMapAfter7MovesReturnsCorrectNumberInfected)
+        {
+            VirusCarrier carrier;
+            carrier.addMapRow("..#");
+            carrier.addMapRow("#..");
+            carrier.addMapRow("...");
+            carrier.moveCarrier(7);
+            Assert::AreEqual((size_t)5, carrier.getNumberInfectedByMoves());
+        }
     };
 }

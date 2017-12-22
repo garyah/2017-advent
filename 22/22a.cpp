@@ -14,7 +14,7 @@ int main()
     {
         // carrier.addMapRow(line);
     }
-    // carrier.spreadVirus();
-    //(void)printf("%u\n", carrier.getNumberInfectedBySpread());
+    // carrier.moveCarrier();
+    //(void)printf("%u\n", carrier.getNumberInfectedByMoves());
     return 0;
 }
