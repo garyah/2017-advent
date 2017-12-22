@@ -24,12 +24,17 @@ namespace Advent2017
 
         void addMapRow(const char *row)
         {
+            if (m_grid.empty()) addPadRows(strlen(row));
             std::vector<bool> gridRow;
+            for (size_t count = 0; count < pad_size; ++count)
+                gridRow.push_back(false);
             for (const char *p = row; *p; ++p)
             {
                 if (*p == '.') gridRow.push_back(false);
                 if (*p == '#') gridRow.push_back(true);
             }
+            for (size_t count = 0; count < pad_size; ++count)
+                gridRow.push_back(false);
             m_grid.push_back(gridRow);
         }
 
@@ -39,14 +44,13 @@ namespace Advent2017
             for (std::vector<std::vector<bool>>::iterator it = m_grid.begin();
                 it != m_grid.end();
                 ++it)
-            {
                 numberOfGridNodes += it->size();
-            }
             return numberOfGridNodes;
         }
 
         void moveCarrier(size_t numberOfMoves)
         {
+            addPadRows(getGridWidth());
             while (numberOfMoves--)
             {
                 // assumption that grid is always odd width and height
@@ -66,12 +70,18 @@ namespace Advent2017
             }
         }
 
-        size_t getNumberInfectedByMoves()
-        {
-            return m_numberInfectedByMoves;
-        }
+        size_t getNumberInfectedByMoves() { return m_numberInfectedByMoves; }
 
     private:
+        void addPadRows(size_t rowLength)
+        {
+            std::vector<bool> padRow;
+            for (size_t count = 0; count < (rowLength + pad_size * 2); ++count)
+                padRow.push_back(false);
+            for (size_t count = 0; count < pad_size; ++count)
+                m_grid.push_back(padRow);
+        }
+
         size_t getGridWidth()
         {
             // critical assumption that width of grid is size of any row,
@@ -84,6 +94,7 @@ namespace Advent2017
             return m_grid.size();
         }
 
+        const size_t pad_size = 5;
         std::vector<std::vector<bool>> m_grid;
         VirusCarrierDirection m_carrierDirection;
         int m_carrierXPosition, m_carrierYPosition;

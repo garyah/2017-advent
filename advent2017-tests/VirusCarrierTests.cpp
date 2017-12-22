@@ -17,7 +17,7 @@ namespace advent2017tests
             carrier.addMapRow("..#");
             carrier.addMapRow("#..");
             carrier.addMapRow("...");
-            Assert::AreEqual((size_t)9, carrier.getNumberOfGridNodes());
+            Assert::AreEqual((size_t)13*13, carrier.getNumberOfGridNodes());
         }
 
         TEST_METHOD(SampleMapAfter7MovesReturnsCorrectNumberInfected)
