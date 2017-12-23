@@ -25,13 +25,10 @@ namespace Advent2017
                 (void)memset(&instruction, 0, sizeof(instruction));
                 do
                 {
-                    if (strcmp(instructionToken, "snd") == 0) { instruction.operation = Snd; break; }
                     if (strcmp(instructionToken, "set") == 0) { instruction.operation = Set; break; }
-                    if (strcmp(instructionToken, "add") == 0) { instruction.operation = Add; break; }
+                    if (strcmp(instructionToken, "sub") == 0) { instruction.operation = Sub; break; }
                     if (strcmp(instructionToken, "mul") == 0) { instruction.operation = Mul; break; }
-                    if (strcmp(instructionToken, "mod") == 0) { instruction.operation = Mod; break; }
-                    if (strcmp(instructionToken, "rcv") == 0) { instruction.operation = Rcv; break; }
-                    if (strcmp(instructionToken, "jgz") == 0) { instruction.operation = Jgz; break; }
+                    if (strcmp(instructionToken, "jnz") == 0) { instruction.operation = Jnz; break; }
                 } while (0);
 
                 auto nextToken = strtok_s(nullptr, " \t", &context);
@@ -88,13 +85,10 @@ namespace Advent2017
     private:
         enum AssemblyParserOperation
         {
-            Snd,
             Set,
-            Add,
+            Sub,
             Mul,
-            Mod,
-            Rcv,
-            Jgz
+            Jnz
         };
 
         struct AssemblyParserInstruction
@@ -127,25 +121,17 @@ namespace Advent2017
             case Set: setRegister(instruction, secondOperand, processId);
                 logTwoOperandExecution("set", firstOperand, secondOperand, processId);
                 break;
-            case Add: setRegister(instruction, firstOperand + secondOperand, processId);
-                logTwoOperandExecution("add", firstOperand, secondOperand, processId);
+            case Sub: setRegister(instruction, firstOperand - secondOperand, processId);
+                logTwoOperandExecution("sub", firstOperand, secondOperand, processId);
                 break;
             case Mul: setRegister(instruction, firstOperand * secondOperand, processId);
+                ++m_numberOfMulsInvoked;
                 logTwoOperandExecution("mul", firstOperand, secondOperand, processId);
                 break;
-            case Mod: setRegister(instruction, firstOperand % secondOperand, processId);
-                logTwoOperandExecution("mod", firstOperand, secondOperand, processId);
-                break;
-            case Snd:
-                logOneOperandExecution("snd", firstOperand, processId);
-                break;
-            case Rcv:
-                logOneOperandExecution("rcv", firstOperand, processId);
-                break;
-            case Jgz:
-                if (firstOperand > 0 && (secondOperand < 0 || secondOperand > 1))
+            case Jnz:
+                if (firstOperand != 0 && (secondOperand < 0 || secondOperand > 1))
                     --programCounter += secondOperand;
-                logTwoOperandExecution("jgz", firstOperand, secondOperand, processId);
+                logTwoOperandExecution("jnz", firstOperand, secondOperand, processId);
                 break;
             default:
                 break;
