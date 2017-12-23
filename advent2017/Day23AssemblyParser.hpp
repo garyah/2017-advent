@@ -5,33 +5,11 @@
 
 namespace Advent2017
 {
-    enum AssemblyParserOperation
-    {
-        Snd,
-        Set,
-        Add,
-        Mul,
-        Mod,
-        Rcv,
-        Jgz
-    };
-
-    struct AssemblyParserInstruction
-    {
-        AssemblyParserOperation operation;
-        bool isFirstOperandRegister;
-        int64_t firstOperand;
-        bool isSecondOperandRegister;
-        int64_t secondOperand;
-    };
-
     class Day23AssemblyParser
     {
     public:
         Day23AssemblyParser() :
-            m_soundPlayed(false),
-            m_valueRecovered(false),
-            m_numberOfSends(0)
+            m_numberOfMulsInvoked(0)
         {
         }
 
@@ -80,7 +58,7 @@ namespace Advent2017
             for (size_t programCounter = 0; programCounter >= 0 && programCounter < m_program.size(); ++programCounter)
             {
                 programCounter = executeInstructionReturningProgramCounter(programCounter, m_program[programCounter]);
-                if (m_valueRecovered) break;
+                // if (m_valueRecovered) break;
             }
         }
 
@@ -105,23 +83,39 @@ namespace Advent2017
             }
         }
 
-        int64_t getFirstRecoveryValue() { return m_firstRecoveryValue; }
-
-        unsigned getnumberOfSends() { return m_numberOfSends; }
+        unsigned getnumberOfMulsInvoked() { return m_numberOfMulsInvoked; }
 
     private:
+        enum AssemblyParserOperation
+        {
+            Snd,
+            Set,
+            Add,
+            Mul,
+            Mod,
+            Rcv,
+            Jgz
+        };
+
+        struct AssemblyParserInstruction
+        {
+            AssemblyParserOperation operation;
+            bool isFirstOperandRegister;
+            int64_t firstOperand;
+            bool isSecondOperandRegister;
+            int64_t secondOperand;
+        };
+
         void clearState()
         {
             for (size_t i = 0; i < _countof(m_registers); ++i)
                 for (size_t j = 0; j < _countof(m_registers[0]); ++j)
                     m_registers[i][j] = 0;
 
-            m_soundPlayed = m_valueRecovered = false;
-            m_mostRecentSndValue = m_firstRecoveryValue = 0;
+            m_numberOfMulsInvoked = 0;
 
             while (!m_interProcessQueue[0].empty()) m_interProcessQueue[0].pop();
             while (!m_interProcessQueue[1].empty()) m_interProcessQueue[1].pop();
-            m_numberOfSends = 0;
         }
 
         size_t executeInstructionReturningProgramCounter(size_t programCounter, const AssemblyParserInstruction& instruction, bool multiProcess = false, size_t processId = 0)
@@ -143,31 +137,9 @@ namespace Advent2017
                 logTwoOperandExecution("mod", firstOperand, secondOperand, processId);
                 break;
             case Snd:
-                if (multiProcess)
-                {
-                    m_interProcessQueue[processId ? 0 : 1].push(firstOperand);
-                    if (processId == 1) ++m_numberOfSends;
-                }
-                if (!multiProcess)
-                {
-                    m_mostRecentSndValue = firstOperand; m_soundPlayed = true;
-                }
                 logOneOperandExecution("snd", firstOperand, processId);
                 break;
             case Rcv:
-                if (multiProcess)
-                {
-                    if (m_interProcessQueue[processId].empty()) --programCounter;
-                    if (!m_interProcessQueue[processId].empty())
-                    {
-                        setRegister(instruction, m_interProcessQueue[processId].front(), processId);
-                        m_interProcessQueue[processId].pop();
-                    }
-                }
-                if (!multiProcess && m_soundPlayed && firstOperand != 0)
-                {
-                    m_firstRecoveryValue = m_mostRecentSndValue; m_valueRecovered = true;
-                }
                 logOneOperandExecution("rcv", firstOperand, processId);
                 break;
             case Jgz:
@@ -214,12 +186,7 @@ namespace Advent2017
 
         std::vector<AssemblyParserInstruction> m_program;
         int64_t m_registers[26][2];
-        bool m_soundPlayed;
-        int64_t m_mostRecentSndValue;
-        bool m_valueRecovered;
-        int64_t m_firstRecoveryValue;
-
+        unsigned m_numberOfMulsInvoked;
         std::queue<int64_t> m_interProcessQueue[2];
-        unsigned m_numberOfSends;
     };
 }
