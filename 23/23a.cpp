@@ -15,6 +15,6 @@ int main()
         parser.parseInstruction(line);
     }
     parser.executeProgram();
-    (void)printf("%u\n", parser.getFirstRecoveryValue());
+    (void)printf("%u\n", parser.getnumberOfMulsInvoked());
     return 0;
 }
