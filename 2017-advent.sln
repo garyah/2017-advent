@@ -104,6 +104,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "advent2017", "advent2017", 
 	ProjectSection(SolutionItems) = preProject
 		advent2017\AssemblyParser.hpp = advent2017\AssemblyParser.hpp
 		advent2017\CaptchaDigitSummer.hpp = advent2017\CaptchaDigitSummer.hpp
+		advent2017\Day23AssemblyParser.hpp = advent2017\Day23AssemblyParser.hpp
 		advent2017\GeneratorDriver.hpp = advent2017\GeneratorDriver.hpp
 		advent2017\NumberGenerator.hpp = advent2017\NumberGenerator.hpp
 		advent2017\PathFinder.hpp = advent2017\PathFinder.hpp
@@ -477,5 +478,8 @@ Global
 		{8F7A41B4-6E34-4E16-ABDE-6F8155669BB3} = {644D4EE4-4A43-45F4-A026-D41507182C7B}
 		{5DED7C71-AE28-4B64-AEEC-C92679F46891} = {3B252197-C677-46BB-A83E-39041B8D4E1E}
 		{5FF9CDB8-A0E2-4EBD-9106-7796FCBA3A72} = {3B252197-C677-46BB-A83E-39041B8D4E1E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {812E15DC-BEBE-424A-BBAA-2679DE05FF6B}
 	EndGlobalSection
 EndGlobal

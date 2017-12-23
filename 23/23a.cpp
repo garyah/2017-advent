@@ -1,20 +1,20 @@
 #include <stdio.h>
 
 #include "../common/InputReader.hpp"
-#include "../advent2016/ViableNodePairCounter.hpp"
+#include "../advent2017/Day23AssemblyParser.hpp"
 
 using namespace Common;
-using namespace Advent2016;
+using namespace Advent2017;
 
 int main()
 {
-    ViableNodePairCounter counter;
+    Day23AssemblyParser parser;
     char *line = NULL;
     while ((line = InputReader::ReadLine()) != NULL)
     {
-        counter.addNode(line);
+        parser.parseInstruction(line);
     }
-    counter.countViable();
-    (void)printf("%u\n", counter.getNumViable());
+    parser.executeProgram();
+    (void)printf("%u\n", parser.getFirstRecoveryValue());
     return 0;
 }
