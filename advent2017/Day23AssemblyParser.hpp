@@ -171,7 +171,7 @@ namespace Advent2017
         }
 
         std::vector<AssemblyParserInstruction> m_program;
-        int64_t m_registers[26][2];
+        int64_t m_registers[8][2];
         unsigned m_numberOfMulsInvoked;
         std::queue<int64_t> m_interProcessQueue[2];
     };
