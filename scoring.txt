@@ -8,3 +8,5 @@ Day 18:
 - 8 first part, 7 second part, 15 total, 52 overall
 Day 16:
 - 7 first part, 7 total, 59 overall
+Day 23:
+- 10 first part, 10 total, 69 overall
