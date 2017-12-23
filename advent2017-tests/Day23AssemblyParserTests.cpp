@@ -14,9 +14,9 @@ namespace advent2017tests
         TEST_METHOD(ProgramWithMulReturnsOneMulInvoked)
         {
             Day23AssemblyParser parser;
-            parser.parseInstruction("set 1");
-            parser.parseInstruction("set 2");
-            parser.parseInstruction("mul p");
+            parser.parseInstruction("set a 1");
+            parser.parseInstruction("set b 2");
+            parser.parseInstruction("mul a b");
             parser.executeProgram();
             Assert::AreEqual(1u, parser.getnumberOfMulsInvoked());
         }
