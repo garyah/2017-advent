@@ -34,22 +34,26 @@ namespace Advent2017
                 auto bridgeStrength = nextComponentPins;
                 if (bridgeStrength > m_maxStrength) m_maxStrength = bridgeStrength;
 
-                while (m_components.find(nextComponentPins) != m_components.end())
+                auto foundComponent = true;
+                while (foundComponent)
                 {
-                    bridgeStrength += nextComponentPins;
-
+                    foundComponent = false;
                     auto nextComponents = m_components[nextComponentPins];
                     for (ComponentSamePinsInventory::iterator it = nextComponents.begin();
                         it != nextComponents.end();
                         ++it)
                     {
                         nextComponent = it->second;
+                        if (nextComponent.isUsed) continue;
+                        if (!foundComponent) bridgeStrength += nextComponentPins;
+                        foundComponent = true;
                         nextComponentPins = it->first;
 
                         nextComponent.isUsed = true;
                         ++m_numberOfBridges;
                         bridgeStrength += nextComponentPins;
                         if (bridgeStrength > m_maxStrength) m_maxStrength = bridgeStrength;
+                        bridgeStrength -= nextComponentPins;
                     }
                 }
             }
