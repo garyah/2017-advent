@@ -6,7 +6,10 @@ namespace Advent2017
     class BridgeBuilder
     {
     public:
-        BridgeBuilder() : m_maxStrength(0) {}
+        BridgeBuilder() :
+            m_maxStrength(0),
+            m_numberOfBridges(0)
+        {}
 
         void addComponent(const char *componentDescription)
         {
@@ -19,8 +22,40 @@ namespace Advent2017
 
         void countBridges()
         {
+            for (ComponentSamePinsInventory::iterator it = m_components[0].begin();
+                it != m_components[0].end();
+                ++it)
+            {
+                auto nextComponent = it->second;
+                auto nextComponentPins = it->first;
+
+                nextComponent.isUsed = true;
+                ++m_numberOfBridges;
+                auto bridgeStrength = nextComponentPins;
+                if (bridgeStrength > m_maxStrength) m_maxStrength = bridgeStrength;
+
+                while (m_components.find(nextComponentPins) != m_components.end())
+                {
+                    bridgeStrength += nextComponentPins;
+
+                    auto nextComponents = m_components[nextComponentPins];
+                    for (ComponentSamePinsInventory::iterator it = nextComponents.begin();
+                        it != nextComponents.end();
+                        ++it)
+                    {
+                        nextComponent = it->second;
+                        nextComponentPins = it->first;
+
+                        nextComponent.isUsed = true;
+                        ++m_numberOfBridges;
+                        bridgeStrength += nextComponentPins;
+                        if (bridgeStrength > m_maxStrength) m_maxStrength = bridgeStrength;
+                    }
+                }
+            }
         }
 
+        unsigned getNumberOfBridges() { return m_numberOfBridges; }
         unsigned getMaxStrength() { return m_maxStrength; }
 
     private:
@@ -28,8 +63,11 @@ namespace Advent2017
         {
             bool isUsed;
         };
+        typedef std::map<unsigned, BridgeComponent> ComponentSamePinsInventory;
+        typedef std::unordered_map<unsigned, ComponentSamePinsInventory> ComponentInventory;
 
-        std::unordered_map<unsigned, std::map<unsigned, BridgeComponent>> m_components;
+        ComponentInventory m_components;
+        unsigned m_numberOfBridges;
         unsigned m_maxStrength;
     };
 }
