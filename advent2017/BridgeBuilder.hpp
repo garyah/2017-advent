@@ -1,3 +1,4 @@
+#include <map>
 #include <vector>
 
 namespace Advent2017
@@ -9,10 +10,11 @@ namespace Advent2017
 
         void addComponent(const char *componentDescription)
         {
-            BridgeComponent component;
-            (void)sscanf_s(componentDescription, "%u/%u",
-                &component.end1Pins, &component.end2Pins);
-            m_components.push_back(component);
+            unsigned end1Pins = 0, end2Pins = 0;
+            (void)sscanf_s(componentDescription, "%u/%u", &end1Pins, &end2Pins);
+            unsigned endWithMinPins = end1Pins <= end2Pins ? end1Pins : end2Pins;
+            unsigned endWithMaxPins = endWithMinPins == end1Pins ? end2Pins : end1Pins;
+            m_components[endWithMinPins].push_back(endWithMaxPins);
         }
 
         void countBridges()
@@ -22,12 +24,7 @@ namespace Advent2017
         unsigned getMaxStrength() { return m_maxStrength; }
 
     private:
-        struct BridgeComponent
-        {
-            unsigned end1Pins, end2Pins;
-        };
-
-        std::vector<BridgeComponent> m_components;
+        std::map<unsigned, std::vector<unsigned>> m_components;
         unsigned m_maxStrength;
     };
 }
