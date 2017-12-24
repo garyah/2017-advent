@@ -12,7 +12,7 @@ int main()
     char *line = NULL;
     while ((line = InputReader::ReadLine()) != NULL)
     {
-        // builder.addPart(line);
+        // builder.addComponent(line);
     }
     // builder.countBridges();
     // (void)printf("%u\n", builder.getMaxStrength());
