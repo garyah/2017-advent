@@ -1,5 +1,5 @@
 #include <map>
-#include <vector>
+#include <unordered_map>
 
 namespace Advent2017
 {
@@ -12,9 +12,9 @@ namespace Advent2017
         {
             unsigned end1Pins = 0, end2Pins = 0;
             (void)sscanf_s(componentDescription, "%u/%u", &end1Pins, &end2Pins);
-            unsigned endWithMinPins = end1Pins <= end2Pins ? end1Pins : end2Pins;
-            unsigned endWithMaxPins = endWithMinPins == end1Pins ? end2Pins : end1Pins;
-            m_components[endWithMinPins].push_back(endWithMaxPins);
+            BridgeComponent component = { false };
+            m_components[end1Pins][end2Pins] = component;
+            m_components[end2Pins][end1Pins] = component;
         }
 
         void countBridges()
@@ -24,7 +24,12 @@ namespace Advent2017
         unsigned getMaxStrength() { return m_maxStrength; }
 
     private:
-        std::map<unsigned, std::vector<unsigned>> m_components;
+        struct BridgeComponent
+        {
+            bool isUsed;
+        };
+
+        std::unordered_map<unsigned, std::map<unsigned, BridgeComponent>> m_components;
         unsigned m_maxStrength;
     };
 }
