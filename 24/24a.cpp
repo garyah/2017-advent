@@ -1,20 +1,20 @@
 #include <stdio.h>
 
 #include "../common/InputReader.hpp"
-#include "../advent2016/ViableNodePairCounter.hpp"
+#include "../advent2017/BridgeBuilder.hpp"
 
 using namespace Common;
-using namespace Advent2016;
+using namespace Advent2017;
 
 int main()
 {
-    ViableNodePairCounter counter;
+    BridgeBuilder builder;
     char *line = NULL;
     while ((line = InputReader::ReadLine()) != NULL)
     {
-        counter.addNode(line);
+        // builder.addPart(line);
     }
-    counter.countViable();
-    (void)printf("%u\n", counter.getNumViable());
+    // builder.countBridges();
+    // (void)printf("%u\n", builder.getMaxStrength());
     return 0;
 }

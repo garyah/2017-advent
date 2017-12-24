@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27211.1
+VisualStudioVersion = 15.0.26823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01a", "01\01a.vcxproj", "{BD987412-10F8-4101-BE89-2A9BB2C84E0A}"
 EndProject
@@ -103,6 +103,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "advent2017", "advent2017", "{3C93F4C5-015F-4DB1-A041-C9E31B934C71}"
 	ProjectSection(SolutionItems) = preProject
 		advent2017\AssemblyParser.hpp = advent2017\AssemblyParser.hpp
+		advent2017\BridgeBuilder.hpp = advent2017\BridgeBuilder.hpp
 		advent2017\CaptchaDigitSummer.hpp = advent2017\CaptchaDigitSummer.hpp
 		advent2017\Day23AssemblyParser.hpp = advent2017\Day23AssemblyParser.hpp
 		advent2017\GeneratorDriver.hpp = advent2017\GeneratorDriver.hpp
