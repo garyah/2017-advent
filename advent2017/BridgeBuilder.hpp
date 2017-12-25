@@ -73,6 +73,7 @@ namespace Advent2017
                 ++m_numberOfBridges;
 
                 tentativeMaxStrength += findNextComponentAndReturnMaxStrength(nextComponentPins, logOutput);
+                nextComponent.isUsed = m_components[nextComponentPins][pinsToFind].isUsed = false;
                 if (tentativeMaxStrength > maxStrengthToReturn) maxStrengthToReturn = tentativeMaxStrength;
             }
             return maxStrengthToReturn;
