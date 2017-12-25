@@ -16,8 +16,7 @@ namespace Advent2017
             unsigned end1Pins = 0, end2Pins = 0;
             (void)sscanf_s(componentDescription, "%u/%u", &end1Pins, &end2Pins);
             BridgeComponent component = { false };
-            m_components[end1Pins][end2Pins] = component;
-            m_components[end2Pins][end1Pins] = component;
+            m_components[end1Pins][end2Pins] = m_components[end2Pins][end1Pins] = component;
         }
 
         void countBridges()
@@ -26,10 +25,10 @@ namespace Advent2017
                 it != m_components[0].end();
                 ++it)
             {
-                auto rootComponent = it->second;
+                auto& rootComponent = it->second;
                 auto rootComponentPins = it->first;
 
-                rootComponent.isUsed = true;
+                rootComponent.isUsed = m_components[rootComponentPins][0].isUsed = true;
                 ++m_numberOfBridges;
 
                 auto bridgeStrength = rootComponentPins
@@ -59,11 +58,11 @@ namespace Advent2017
                 it != nextComponents.end();
                 ++it)
             {
-                auto nextComponent = it->second;
+                auto& nextComponent = it->second;
                 if (nextComponent.isUsed) continue;
                 auto nextComponentPins = it->first;
 
-                nextComponent.isUsed = true;
+                nextComponent.isUsed = m_components[nextComponentPins][pinsToFind].isUsed = true;
                 ++m_numberOfBridges;
 
                 auto tentativeMaxStrength = findNextComponentAndReturnMaxStrength(nextComponentPins);
