@@ -28,13 +28,13 @@ namespace Advent2017
                 auto& rootComponent = it->second;
                 auto rootComponentPins = it->first;
 
-                (void)printf("%u/%u\n", 0u, rootComponentPins);
+                (void)snprintf(m_logOutput, _countof(m_logOutput), "%u/%u", 0u, rootComponentPins);
+                (void)printf("%s\n", m_logOutput);
                 rootComponent.isUsed = m_components[rootComponentPins][0].isUsed = true;
                 ++m_numberOfBridges;
-                //(void)printf("\n");
 
                 auto bridgeStrength = rootComponentPins
-                    + findNextComponentAndReturnMaxStrength(rootComponentPins, 0);
+                    + findNextComponentAndReturnMaxStrength(rootComponentPins);
                 if (bridgeStrength > m_maxStrength) m_maxStrength = bridgeStrength;
             }
         }
@@ -50,7 +50,7 @@ namespace Advent2017
         typedef std::map<unsigned, BridgeComponent> ComponentSamePinsInventory;
         typedef std::unordered_map<unsigned, ComponentSamePinsInventory> ComponentInventory;
 
-        unsigned findNextComponentAndReturnMaxStrength(unsigned pinsToFind, unsigned parentOtherPins)
+        unsigned findNextComponentAndReturnMaxStrength(unsigned pinsToFind)
         {
             auto nextComponents = m_components[pinsToFind];
             if (nextComponents.size() <= 1) return 0;
@@ -64,11 +64,12 @@ namespace Advent2017
                 if (nextComponent.isUsed) continue;
                 auto nextComponentPins = it->first;
 
-                (void)printf("%u/%u--%u/%u\n", parentOtherPins, pinsToFind, pinsToFind, nextComponentPins);
+                (void)snprintf(m_logOutput, _countof(m_logOutput), "%s--%u/%u", m_logOutput, pinsToFind, nextComponentPins);
+                (void)printf("%s\n", m_logOutput);
                 nextComponent.isUsed = m_components[nextComponentPins][pinsToFind].isUsed = true;
                 ++m_numberOfBridges;
 
-                auto tentativeMaxStrength = findNextComponentAndReturnMaxStrength(nextComponentPins, pinsToFind);
+                auto tentativeMaxStrength = findNextComponentAndReturnMaxStrength(nextComponentPins);
                 if (tentativeMaxStrength > maxStrengthToReturn) maxStrengthToReturn = tentativeMaxStrength;
             }
             return maxStrengthToReturn;
@@ -77,5 +78,6 @@ namespace Advent2017
         ComponentInventory m_components;
         unsigned m_numberOfBridges;
         unsigned m_maxStrength;
+        char m_logOutput[1000];
     };
 }
