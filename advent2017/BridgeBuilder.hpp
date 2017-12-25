@@ -26,36 +26,15 @@ namespace Advent2017
                 it != m_components[0].end();
                 ++it)
             {
-                auto nextComponent = it->second;
-                auto nextComponentPins = it->first;
+                auto rootComponent = it->second;
+                auto rootComponentPins = it->first;
 
-                nextComponent.isUsed = true;
+                rootComponent.isUsed = true;
                 ++m_numberOfBridges;
-                auto bridgeStrength = nextComponentPins;
+
+                auto bridgeStrength = rootComponentPins
+                    + findNextComponentAndReturnMaxStrength(rootComponentPins);
                 if (bridgeStrength > m_maxStrength) m_maxStrength = bridgeStrength;
-
-                auto foundComponent = true;
-                while (foundComponent)
-                {
-                    foundComponent = false;
-                    auto nextComponents = m_components[nextComponentPins];
-                    for (ComponentSamePinsInventory::iterator it = nextComponents.begin();
-                        it != nextComponents.end();
-                        ++it)
-                    {
-                        nextComponent = it->second;
-                        if (nextComponent.isUsed) continue;
-                        if (!foundComponent) bridgeStrength += nextComponentPins;
-                        foundComponent = true;
-                        nextComponentPins = it->first;
-
-                        nextComponent.isUsed = true;
-                        ++m_numberOfBridges;
-                        bridgeStrength += nextComponentPins;
-                        if (bridgeStrength > m_maxStrength) m_maxStrength = bridgeStrength;
-                        bridgeStrength -= nextComponentPins;
-                    }
-                }
             }
         }
 
@@ -69,6 +48,29 @@ namespace Advent2017
         };
         typedef std::map<unsigned, BridgeComponent> ComponentSamePinsInventory;
         typedef std::unordered_map<unsigned, ComponentSamePinsInventory> ComponentInventory;
+
+        unsigned findNextComponentAndReturnMaxStrength(unsigned pinsToFind)
+        {
+            auto nextComponents = m_components[pinsToFind];
+            if (nextComponents.size() <= 1) return 0;
+            auto maxStrengthToReturn = 0u;
+
+            for (ComponentSamePinsInventory::iterator it = nextComponents.begin();
+                it != nextComponents.end();
+                ++it)
+            {
+                auto nextComponent = it->second;
+                if (nextComponent.isUsed) continue;
+                auto nextComponentPins = it->first;
+
+                nextComponent.isUsed = true;
+                ++m_numberOfBridges;
+
+                auto tentativeMaxStrength = findNextComponentAndReturnMaxStrength(nextComponentPins);
+                if (tentativeMaxStrength > maxStrengthToReturn) maxStrengthToReturn = tentativeMaxStrength;
+            }
+            return maxStrengthToReturn;
+        }
 
         ComponentInventory m_components;
         unsigned m_numberOfBridges;
