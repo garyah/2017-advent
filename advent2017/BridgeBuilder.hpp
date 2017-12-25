@@ -53,7 +53,7 @@ namespace Advent2017
 
         unsigned findNextComponentAndReturnMaxStrength(unsigned pinsToFind, const char *parentlogOutput)
         {
-            auto nextComponents = m_components[pinsToFind];
+            auto& nextComponents = m_components[pinsToFind];
             if (nextComponents.size() <= 1) return 0;
             auto maxStrengthToReturn = 0u;
 
