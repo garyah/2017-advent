@@ -28,11 +28,13 @@ namespace Advent2017
                 auto& rootComponent = it->second;
                 auto rootComponentPins = it->first;
 
+                (void)printf("%u/%u\n", 0u, rootComponentPins);
                 rootComponent.isUsed = m_components[rootComponentPins][0].isUsed = true;
                 ++m_numberOfBridges;
+                //(void)printf("\n");
 
                 auto bridgeStrength = rootComponentPins
-                    + findNextComponentAndReturnMaxStrength(rootComponentPins);
+                    + findNextComponentAndReturnMaxStrength(rootComponentPins, 0);
                 if (bridgeStrength > m_maxStrength) m_maxStrength = bridgeStrength;
             }
         }
@@ -48,7 +50,7 @@ namespace Advent2017
         typedef std::map<unsigned, BridgeComponent> ComponentSamePinsInventory;
         typedef std::unordered_map<unsigned, ComponentSamePinsInventory> ComponentInventory;
 
-        unsigned findNextComponentAndReturnMaxStrength(unsigned pinsToFind)
+        unsigned findNextComponentAndReturnMaxStrength(unsigned pinsToFind, unsigned parentOtherPins)
         {
             auto nextComponents = m_components[pinsToFind];
             if (nextComponents.size() <= 1) return 0;
@@ -62,10 +64,11 @@ namespace Advent2017
                 if (nextComponent.isUsed) continue;
                 auto nextComponentPins = it->first;
 
+                (void)printf("%u/%u--%u/%u\n", parentOtherPins, pinsToFind, pinsToFind, nextComponentPins);
                 nextComponent.isUsed = m_components[nextComponentPins][pinsToFind].isUsed = true;
                 ++m_numberOfBridges;
 
-                auto tentativeMaxStrength = findNextComponentAndReturnMaxStrength(nextComponentPins);
+                auto tentativeMaxStrength = findNextComponentAndReturnMaxStrength(nextComponentPins, pinsToFind);
                 if (tentativeMaxStrength > maxStrengthToReturn) maxStrengthToReturn = tentativeMaxStrength;
             }
             return maxStrengthToReturn;
