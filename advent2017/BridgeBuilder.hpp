@@ -30,7 +30,7 @@ namespace Advent2017
 
                 char logOutput[10];
                 (void)snprintf(logOutput, _countof(logOutput), "%u/%u", 0u, rootComponentPins);
-                (void)printf("%s\n", logOutput);
+                //(void)printf("%s\n", logOutput);
                 rootComponent.isUsed = m_components[rootComponentPins][0].isUsed = true;
                 ++m_numberOfBridges;
 
@@ -64,14 +64,15 @@ namespace Advent2017
                 auto& nextComponent = it->second;
                 if (nextComponent.isUsed) continue;
                 auto nextComponentPins = it->first;
+                auto tentativeMaxStrength = pinsToFind + nextComponentPins;
 
-                char logOutput[10];
+                char logOutput[100];
                 (void)snprintf(logOutput, _countof(logOutput), "%s--%u/%u", parentlogOutput, pinsToFind, nextComponentPins);
-                (void)printf("%s\n", logOutput);
+                //(void)printf("%s\n", logOutput);
                 nextComponent.isUsed = m_components[nextComponentPins][pinsToFind].isUsed = true;
                 ++m_numberOfBridges;
 
-                auto tentativeMaxStrength = findNextComponentAndReturnMaxStrength(nextComponentPins, logOutput);
+                tentativeMaxStrength += findNextComponentAndReturnMaxStrength(nextComponentPins, logOutput);
                 if (tentativeMaxStrength > maxStrengthToReturn) maxStrengthToReturn = tentativeMaxStrength;
             }
             return maxStrengthToReturn;
