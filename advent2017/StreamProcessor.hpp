@@ -6,8 +6,8 @@ namespace Advent2017
         static const char *EatGarbage(const char *input)
         {
             if (*input != '<') return input;
-            ++input;
-            for (auto isEscaped = false; *input != 0; ++input)
+            auto isEscaped = false;
+            for (++input; *input != 0; ++input)
             {
                 if (isEscaped) { isEscaped = false; continue; }
                 if (*input == '!') isEscaped = true;
