@@ -10,7 +10,7 @@ namespace Advent2017
             for (auto isEscaped = false; *input != 0; ++input)
             {
                 if (isEscaped) { isEscaped = false; continue; }
-                if (*input == '!') isEscaped == true;
+                if (*input == '!') isEscaped = true;
                 if (*input == '>') return ++input;
             }
             return input;
