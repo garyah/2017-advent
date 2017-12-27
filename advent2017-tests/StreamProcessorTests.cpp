@@ -6,6 +6,8 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Advent2017;
 
+unsigned StreamProcessor::TotalGroupScore = 0;
+
 namespace advent2017tests
 {
     TEST_CLASS(StreamProcessorTests)
@@ -100,6 +102,24 @@ namespace advent2017tests
             auto numGroups = 0u;
             Assert::AreEqual("", StreamProcessor::EatGroup("{{<!>},{<!>},{<!>},{<a>}}", numGroups));
             Assert::AreEqual(2u, numGroups);
+        }
+
+        TEST_METHOD(CanScoreOneGroupAsOne)
+        {
+            StreamProcessor::TotalGroupScore = 0;
+            auto numGroups = 0u;
+            auto groupScore = 0u;
+            (void)StreamProcessor::EatGroup("{}", numGroups, &groupScore);
+            Assert::AreEqual(1u, StreamProcessor::TotalGroupScore);
+        }
+
+        TEST_METHOD(CanScoreThreeNestedGroupsAsSix)
+        {
+            StreamProcessor::TotalGroupScore = 0;
+            auto numGroups = 0u;
+            auto groupScore = 0u;
+            (void)StreamProcessor::EatGroup("{{{}}}", numGroups, &groupScore);
+            Assert::AreEqual(6u, StreamProcessor::TotalGroupScore);
         }
     };
 }
