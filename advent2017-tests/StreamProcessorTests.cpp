@@ -13,7 +13,6 @@ namespace advent2017tests
     public:
         TEST_METHOD(CanEatEmptyGarbage)
         {
-            //StreamProcessor someObject();
             Assert::AreEqual("", StreamProcessor::EatGarbage("<>"));
         }
 

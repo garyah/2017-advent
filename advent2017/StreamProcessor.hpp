@@ -27,7 +27,5 @@ namespace Advent2017
             }
             return input;
         }
-
-        //private:
     };
 }
