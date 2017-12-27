@@ -46,5 +46,12 @@ namespace advent2017tests
         {
             Assert::AreEqual("", StreamProcessor::EatGarbage("<{o""i!a, <{i<a>"));
         }
+
+        TEST_METHOD(CanEatOneGroupWithCountOfOne)
+        {
+            auto numGroups = 0u;
+            Assert::AreEqual("", StreamProcessor::EatGroup("{}", numGroups));
+            Assert::AreEqual(1u, numGroups);
+        }
     };
 }

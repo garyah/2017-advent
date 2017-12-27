@@ -16,6 +16,18 @@ namespace Advent2017
             return input;
         }
 
-    //private:
+        static const char *EatGroup(const char *input, unsigned& numberGroups)
+        {
+            if (*input != '{') return input;
+            for (++input; *input != 0; ++input)
+            {
+                if (*input == '{') input = EatGroup(input, numberGroups);
+                if (*input == '<') input = EatGarbage(input);
+                if (*input == '}') { ++numberGroups; return ++input; }
+            }
+            return input;
+        }
+
+        //private:
     };
 }
