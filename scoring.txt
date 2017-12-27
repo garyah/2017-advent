@@ -11,4 +11,6 @@ Day 16:
 Day 23:
 - 10 first part, 10 total, 69 overall
 Day 24:
-- 10 first part, 10, total, 79 overall
+- 10 first part, 10 total, 79 overall
+Day 9:
+- 7 first part, 7 total, 86 overall
