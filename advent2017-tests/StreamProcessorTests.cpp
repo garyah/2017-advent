@@ -121,5 +121,59 @@ namespace advent2017tests
             (void)StreamProcessor::EatGroup("{{{}}}", numGroups, &groupScore);
             Assert::AreEqual(6u, StreamProcessor::TotalGroupScore);
         }
+
+        TEST_METHOD(CanScoreOneGroupNestingTwoAsFive)
+        {
+            StreamProcessor::TotalGroupScore = 0;
+            auto numGroups = 0u;
+            auto groupScore = 0u;
+            (void)StreamProcessor::EatGroup("{{},{}}", numGroups, &groupScore);
+            Assert::AreEqual(5u, StreamProcessor::TotalGroupScore);
+        }
+
+        TEST_METHOD(CanScoreVariouslyNestedGroupsAsSixteen)
+        {
+            StreamProcessor::TotalGroupScore = 0;
+            auto numGroups = 0u;
+            auto groupScore = 0u;
+            (void)StreamProcessor::EatGroup("{{{},{},{{}}}}", numGroups, &groupScore);
+            Assert::AreEqual(16u, StreamProcessor::TotalGroupScore);
+        }
+
+        TEST_METHOD(CanScoreGroupContainingMultipleGarbageAsOne)
+        {
+            StreamProcessor::TotalGroupScore = 0;
+            auto numGroups = 0u;
+            auto groupScore = 0u;
+            (void)StreamProcessor::EatGroup("{<a>,<a>,<a>,<a>}", numGroups, &groupScore);
+            Assert::AreEqual(1u, StreamProcessor::TotalGroupScore);
+        }
+
+        TEST_METHOD(CanScoreGroupContainingMultipleGroupedGarbageAsNine)
+        {
+            StreamProcessor::TotalGroupScore = 0;
+            auto numGroups = 0u;
+            auto groupScore = 0u;
+            (void)StreamProcessor::EatGroup("{{<ab>},{<ab>},{<ab>},{<ab>}}", numGroups, &groupScore);
+            Assert::AreEqual(9u, StreamProcessor::TotalGroupScore);
+        }
+
+        TEST_METHOD(CanScoreGroupContainingMultipleGroupedGarbageWithEscapingAsNine)
+        {
+            StreamProcessor::TotalGroupScore = 0;
+            auto numGroups = 0u;
+            auto groupScore = 0u;
+            (void)StreamProcessor::EatGroup("{{<!!>},{<!!>},{<!!>},{<!!>}}", numGroups, &groupScore);
+            Assert::AreEqual(9u, StreamProcessor::TotalGroupScore);
+        }
+
+        TEST_METHOD(CanScoreGroupContainingGroupWithGarbageAndEscapedEndingCharactersAsThree)
+        {
+            StreamProcessor::TotalGroupScore = 0;
+            auto numGroups = 0u;
+            auto groupScore = 0u;
+            (void)StreamProcessor::EatGroup("{{<a!>},{<a!>},{<a!>},{<ab>}}", numGroups, &groupScore);
+            Assert::AreEqual(3u, StreamProcessor::TotalGroupScore);
+        }
     };
 }
