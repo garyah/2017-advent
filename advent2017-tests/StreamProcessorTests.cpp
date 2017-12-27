@@ -81,5 +81,26 @@ namespace advent2017tests
             Assert::AreEqual("", StreamProcessor::EatGroup("{<{},{},{{}}>}", numGroups));
             Assert::AreEqual(1u, numGroups);
         }
+
+        TEST_METHOD(CanEatGroupContainingMultipleGarbageWithCountOfOne)
+        {
+            auto numGroups = 0u;
+            Assert::AreEqual("", StreamProcessor::EatGroup("{<a>,<a>,<a>,<a>}", numGroups));
+            Assert::AreEqual(1u, numGroups);
+        }
+
+        TEST_METHOD(CanEatGroupContainingMultipleGroupedGarbageWithCountOfFive)
+        {
+            auto numGroups = 0u;
+            Assert::AreEqual("", StreamProcessor::EatGroup("{{<a>},{<a>},{<a>},{<a>}}", numGroups));
+            Assert::AreEqual(5u, numGroups);
+        }
+
+        TEST_METHOD(CanEatGroupContainingGroupWithGarbageAndEscapedEndingCharactersWithCountOfTwo)
+        {
+            auto numGroups = 0u;
+            Assert::AreEqual("", StreamProcessor::EatGroup("{{<!>},{<!>},{<!>},{<a>}}", numGroups));
+            Assert::AreEqual(2u, numGroups);
+        }
     };
 }
