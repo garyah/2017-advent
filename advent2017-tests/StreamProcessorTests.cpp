@@ -53,5 +53,19 @@ namespace advent2017tests
             Assert::AreEqual("", StreamProcessor::EatGroup("{}", numGroups));
             Assert::AreEqual(1u, numGroups);
         }
+
+        TEST_METHOD(CanEatThreeNestedGroupsWithCountOfThree)
+        {
+            auto numGroups = 0u;
+            Assert::AreEqual("", StreamProcessor::EatGroup("{{{}}}", numGroups));
+            Assert::AreEqual(3u, numGroups);
+        }
+
+        TEST_METHOD(CanEatOneGroupNestingTwoWithCountOfThree)
+        {
+            auto numGroups = 0u;
+            Assert::AreEqual("", StreamProcessor::EatGroup("{{},{}}", numGroups));
+            Assert::AreEqual(3u, numGroups);
+        }
     };
 }
